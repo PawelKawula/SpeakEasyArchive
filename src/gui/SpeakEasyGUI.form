@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="gui.SpeakEasyGUI">
+  <grid id="27dc6" binding="mainPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="1280" height="720"/>
+    </constraints>
+    <properties>
+      <minimumSize width="1280" height="720"/>
+      <preferredSize width="1280" height="720"/>
+      <requestFocusEnabled value="true"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="8ae1" binding="groupsPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="West"/>
+        <properties>
+          <preferredSize width="225" height="2"/>
+        </properties>
+        <border type="empty">
+          <size top="2" left="2" bottom="2" right="2"/>
+          <color color="-10223616"/>
+        </border>
+        <children>
+          <grid id="b5862" binding="groupManagmentPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints border-constraint="South"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="59407" class="javax.swing.JButton" binding="addGroupButton">
+                <constraints border-constraint="East"/>
+                <properties>
+                  <text value="Dodaj grupę"/>
+                </properties>
+              </component>
+              <component id="cadff" class="javax.swing.JTextField" binding="addGroupTextField">
+                <constraints border-constraint="Center"/>
+                <properties/>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
+      <grid id="4c653" binding="chatPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="Center"/>
+        <properties>
+          <preferredSize width="600" height="2"/>
+        </properties>
+        <border type="line">
+          <size top="2" left="2" bottom="2" right="2"/>
+          <color color="-16751616"/>
+        </border>
+        <children>
+          <component id="9d5ad" class="javax.swing.JTextArea" binding="chatInput">
+            <constraints border-constraint="South"/>
+            <properties>
+              <rows value="5"/>
+            </properties>
+          </component>
+          <grid id="4173f" binding="conversationPanel" layout-manager="GridBagLayout">
+            <constraints border-constraint="Center"/>
+            <properties/>
+            <border type="none"/>
+            <children/>
+          </grid>
+        </children>
+      </grid>
+      <grid id="2ec18" binding="friendsPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="East"/>
+        <properties>
+          <preferredSize width="225" height="2"/>
+        </properties>
+        <border type="empty">
+          <size top="2" left="2" bottom="2" right="2"/>
+          <color color="-16777116"/>
+        </border>
+        <children>
+          <grid id="e9ca2" binding="addFriendPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints border-constraint="South"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="ec524" class="javax.swing.JButton" binding="addFriendButton">
+                <constraints border-constraint="East"/>
+                <properties>
+                  <text value="Dodaj znajomego"/>
+                </properties>
+              </component>
+              <component id="8511f" class="javax.swing.JTextArea" binding="addFriendTextField">
+                <constraints border-constraint="Center"/>
+                <properties/>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>
