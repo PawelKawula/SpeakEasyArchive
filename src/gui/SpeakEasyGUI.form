@@ -11,7 +11,7 @@
     </properties>
     <border type="none"/>
     <children>
-      <grid id="8ae1" binding="groupsPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+      <grid id="8ae1" binding="groupsSegment" layout-manager="BorderLayout" hgap="0" vgap="0">
         <constraints border-constraint="West"/>
         <properties>
           <preferredSize width="225" height="2"/>
@@ -29,6 +29,8 @@
               <component id="59407" class="javax.swing.JButton" binding="addGroupButton">
                 <constraints border-constraint="East"/>
                 <properties>
+                  <hideActionText value="false"/>
+                  <horizontalTextPosition value="11"/>
                   <text value="Dodaj grupę"/>
                 </properties>
               </component>
@@ -38,9 +40,31 @@
               </component>
             </children>
           </grid>
+          <grid id="4da02" binding="groupListPanel" layout-manager="GridBagLayout">
+            <constraints border-constraint="Center"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <grid id="68757" binding="groupList" layout-manager="GridBagLayout">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="1.0" weighty="0.0"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children/>
+              </grid>
+              <vspacer id="ca46c">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="1.0"/>
+                </constraints>
+              </vspacer>
+            </children>
+          </grid>
         </children>
       </grid>
-      <grid id="4c653" binding="chatPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+      <grid id="4c653" binding="chatSegment" layout-manager="BorderLayout" hgap="0" vgap="0">
         <constraints border-constraint="Center"/>
         <properties>
           <preferredSize width="600" height="2"/>
@@ -53,8 +77,13 @@
           <component id="9d5ad" class="javax.swing.JTextArea" binding="chatInput">
             <constraints border-constraint="South"/>
             <properties>
+              <lineWrap value="true"/>
               <rows value="5"/>
+              <wrapStyleWord value="true"/>
             </properties>
+            <clientProperties>
+              <html.disable class="java.lang.Boolean" value="false"/>
+            </clientProperties>
           </component>
           <grid id="4173f" binding="conversationPanel" layout-manager="GridBagLayout">
             <constraints border-constraint="Center"/>
@@ -64,7 +93,7 @@
           </grid>
         </children>
       </grid>
-      <grid id="2ec18" binding="friendsPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+      <grid id="2ec18" binding="friendsSegment" layout-manager="BorderLayout" hgap="0" vgap="0">
         <constraints border-constraint="East"/>
         <properties>
           <preferredSize width="225" height="2"/>
@@ -82,15 +111,35 @@
               <component id="ec524" class="javax.swing.JButton" binding="addFriendButton">
                 <constraints border-constraint="East"/>
                 <properties>
+                  <font size="8"/>
                   <text value="Dodaj znajomego"/>
                 </properties>
               </component>
-              <component id="8511f" class="javax.swing.JTextArea" binding="addFriendTextField">
+              <component id="21e35" class="javax.swing.JTextField" binding="addFriendTextField">
                 <constraints border-constraint="Center"/>
                 <properties/>
               </component>
             </children>
           </grid>
+          <grid id="addeb" binding="friendListPanel" layout-manager="GridBagLayout">
+            <constraints border-constraint="North"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <grid id="6e41f" binding="friendList" layout-manager="GridBagLayout">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="1.0" weighty="0.0"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children/>
+              </grid>
+            </children>
+          </grid>
+          <vspacer id="c9fd7">
+            <constraints border-constraint="Center"/>
+          </vspacer>
         </children>
       </grid>
     </children>
