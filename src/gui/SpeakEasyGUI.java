@@ -2,6 +2,7 @@ package gui;
 
 import conversation.Bubble;
 import conversation.Conversation;
+import conversation.ConversationSingleton;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -17,6 +18,7 @@ import java.util.Map;
 
 public class SpeakEasyGUI extends JFrame
 {
+    private ConversationSingleton conversationSingleton;
     private JPanel mainPanel;
     private JPanel groupsSegment;
     private JPanel chatSegment;
@@ -98,41 +100,38 @@ public class SpeakEasyGUI extends JFrame
            {
                if (e.getKeyCode() == KeyEvent.VK_ENTER)
                {
+                    conversationSingleton.addMessage(chatInput.getText(), true);
+                    chatPanel.revalidate();
+                    chatPanel.repaint();
+                    chatInput.setText("");
                }
            }
        });
+       chatPanel = new JPanel()
+       {
+           @Override
+           public void paintComponents(Graphics g)
+           {
+               super.paintComponents(g);
+               Rectangle2D test = new Rectangle2D.Double(10, 10, 200, 200);
+               Graphics2D g2 = (Graphics2D) g;
+               g2.fill(test);
+               System.out.println("XD");
+               if (conversationSingleton != null)
+                   System.out.println("NULL");
+               conversationSingleton.paintConversation();
+           }
+       };
+       Border border = BorderFactory.createLineBorder(Color.BLUE, 5);
+       chatPanel.setBorder(border);
+       chatSegment.add(chatPanel, BorderLayout.CENTER);
+       conversationSingleton = new ConversationSingleton(chatPanel);
    }
 
 
     private void createUIComponents()
     {
-        chatSegment = new JPanel();
-        chatPanel = new ChatPanel();
-        Border border = BorderFactory.createLineBorder(Color.BLUE, 5);
-        chatPanel.setBorder(border);
-        chatSegment.add(chatPanel, BorderLayout.CENTER);
-    }
-}
-
-class ChatPanel extends JPanel
-{
-    Map<String, Conversation> conversationMap;
-    private String currentConversation;
-    private Bubble testBubble;
-
-    public ChatPanel()
-    {
-        super();
-        testBubble = new Bubble(new Dimension(100, 100), new Dimension(20, 20), "Test", true);
-    }
-
-    @Override
-    protected void paintComponent(Graphics g)
-    {
-        Graphics2D g2 = (Graphics2D) g;
-        testBubble.drawRound(g2);
-//        if (conversationMap.containsKey(currentConversation))
-//            conversationMap.get(currentConversation).paintImmediately();
 
     }
 }
+

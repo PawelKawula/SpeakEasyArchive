@@ -1,5 +1,6 @@
 package conversation;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
@@ -12,17 +13,18 @@ public class Bubble
     private ArrayList<String> text;
     private Color bgColor;
     private Color fontColor;
-    static boolean firstDraw = true;
+    private static boolean firstDraw = true;
+    private Font font;
+    private JPanel chatPanel;
 
     public void setFont(Font font)
     {
         this.font = font;
     }
 
-    private Font font;
-
-    public Bubble(Dimension position, Dimension innerMargin, String text, boolean me)
+    public Bubble(JPanel chatPanel, Dimension position, Dimension innerMargin, String text)
     {
+        this.chatPanel = chatPanel;
         this.innerMargin = innerMargin;
         this.text = new ArrayList<>();
         this.text.add(text);
@@ -62,13 +64,9 @@ public class Bubble
         return text;
     }
 
-    public void update()
+    public void breakLine(int lineWidth)
     {
-
-    }
-
-    public void breakLine(Graphics2D g2, int lineWidth)
-    {
+        Graphics2D g2 = (Graphics2D) this.chatPanel.getGraphics();
         Font prevFont = g2.getFont();
         g2.setFont(this.font);
 
@@ -90,9 +88,9 @@ public class Bubble
         while (i < jointRows.length())
         {
             supposedCharsPerLine = (i + supposedCharsPerLine < jointRows.length()) ? supposedCharsPerLine : jointRows.length() - i;
-            text.add(jointRows.substring(i, i + supposedCharsPerLine));
+            String row = jointRows.substring(i, i + supposedCharsPerLine).trim();
+            text.add(row);
             i += supposedCharsPerLine;
-            System.out.println(i);
 
             Rectangle2D rowBounds = font.getStringBounds(text.get(text.size() - 1), context);
             if (rowBounds.getWidth() > maxLineWidth)
@@ -103,32 +101,46 @@ public class Bubble
         this.box = new Rectangle2D.Double(box.getX(), box.getY(), boxWidth, boxHeight);
     }
 
-    public void drawRound(Graphics2D g2)
+    public void drawRound()
     {
+        Graphics2D g2 = (Graphics2D) this.chatPanel.getGraphics();
         if (firstDraw)
         {
-            breakLine(g2, 200);
+            breakLine(100);
             firstDraw = false;
         }
         g2.drawRoundRect((int) box.getX(), (int) box.getY(), (int) box.getWidth(), (int) box.getHeight(), 5, 5);
-        Font prevFont = g2.getFont();
-        g2.setFont(this.font);
-        FontRenderContext context = g2.getFontRenderContext();
-        Rectangle2D bounds = this.font.getStringBounds(this.text.get(0), context);
-        int x = (int) (this.box.getX() + this.innerMargin.width / 2), y = (int) (this.box.getY() + this.innerMargin.height);
-        for (int i = 0; i < this.text.size(); ++i)
-            g2.drawString(this.text.get(i), x, (int) (y + i * bounds.getHeight()));
+        drawText();
     }
 
     public void drawSharp(Graphics2D g2)
     {
+        if (firstDraw)
+        {
+            breakLine(200);
+            firstDraw = false;
+        }
         g2.draw(this.box);
+        drawText();
+    }
+
+    private void drawText()
+    {
+        Graphics2D g2 = (Graphics2D) this.chatPanel.getGraphics();
         Font prevFont = g2.getFont();
         g2.setFont(this.font);
         FontRenderContext context = g2.getFontRenderContext();
         Rectangle2D bounds = this.font.getStringBounds(this.text.get(0), context);
-        int x = (int) (this.box.getX() + this.innerMargin.width), y = (int) (this.box.getY() + this.innerMargin.height);
+        int x = (int) (this.box.getX() + this.innerMargin.width / 2), y = (int) (this.box.getY() - bounds.getY() + this.innerMargin.height / 2);
         for (int i = 0; i < this.text.size(); ++i)
-            g2.drawString(this.text.get(i), x, (int) (y + i * bounds.getHeight()));
+            g2.drawString(this.text.get(i), x, y + (int)(i * bounds.getHeight()));
     }
+
+    public void positionAsMyBubble(JPanel chatPanel, int panelInnerMarginWidth)
+    {
+        this.box.setFrame(chatPanel.getWidth() - panelInnerMarginWidth - this.box.getWidth(),
+                this.box.getY(), this.box.getWidth(), this.box.getHeight());
+        this.breakLine(200);
+    }
+
 }
