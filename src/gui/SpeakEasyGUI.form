@@ -85,7 +85,7 @@
               <html.disable class="java.lang.Boolean" value="false"/>
             </clientProperties>
           </component>
-          <grid id="4173f" binding="conversationPanel" layout-manager="GridBagLayout">
+          <grid id="eb7e5" binding="chatPanel" custom-create="true" layout-manager="GridBagLayout">
             <constraints border-constraint="Center"/>
             <properties/>
             <border type="none"/>
