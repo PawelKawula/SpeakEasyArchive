@@ -118,11 +118,19 @@ class ChatPanel extends JPanel
 {
     Map<String, Conversation> conversationMap;
     private String currentConversation;
+    private Bubble testBubble;
+
+    public ChatPanel()
+    {
+        super();
+        testBubble = new Bubble(new Dimension(100, 100), new Dimension(20, 20), "Test", true);
+    }
 
     @Override
     protected void paintComponent(Graphics g)
     {
         Graphics2D g2 = (Graphics2D) g;
+        testBubble.drawRound(g2);
 //        if (conversationMap.containsKey(currentConversation))
 //            conversationMap.get(currentConversation).paintImmediately();
 
