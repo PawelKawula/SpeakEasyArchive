@@ -1,5 +1,6 @@
 package conversation;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
@@ -13,13 +14,13 @@ public class Bubble
     private Color bgColor;
     private Color fontColor;
     static boolean firstDraw = true;
+    private Font font;
 
     public void setFont(Font font)
     {
         this.font = font;
     }
 
-    private Font font;
 
     public Bubble(Dimension position, Dimension innerMargin, String text, boolean me)
     {
@@ -60,11 +61,6 @@ public class Bubble
     public ArrayList<String> getText()
     {
         return text;
-    }
-
-    public void update()
-    {
-
     }
 
     public void breakLine(Graphics2D g2, int lineWidth)
@@ -110,25 +106,41 @@ public class Bubble
             breakLine(g2, 200);
             firstDraw = false;
         }
-        g2.drawRoundRect((int) box.getX(), (int) box.getY(), (int) box.getWidth(), (int) box.getHeight(), 5, 5);
+        g2.drawRoundRect((int) box.getX(), (int) box.getY(), (int) box.getWidth(), (int) box.getHeight(), 10, 10);
+        drawText(g2);
+
+    }
+
+    private void drawText(Graphics2D g2)
+    {
         Font prevFont = g2.getFont();
+        Color prevColor = g2.getColor();
         g2.setFont(this.font);
+        g2.setColor(this.bgColor);
         FontRenderContext context = g2.getFontRenderContext();
         Rectangle2D bounds = this.font.getStringBounds(this.text.get(0), context);
-        int x = (int) (this.box.getX() + this.innerMargin.width / 2), y = (int) (this.box.getY() + this.innerMargin.height);
+        int x = (int) (this.box.getX() + this.innerMargin.width / 2), y = (int) (this.box.getY() - bounds.getY() + this.innerMargin.height / 2);
         for (int i = 0; i < this.text.size(); ++i)
             g2.drawString(this.text.get(i), x, (int) (y + i * bounds.getHeight()));
     }
 
     public void drawSharp(Graphics2D g2)
     {
+        if (firstDraw)
+        {
+            breakLine(g2, 200);
+            firstDraw = false;
+        }
         g2.draw(this.box);
-        Font prevFont = g2.getFont();
-        g2.setFont(this.font);
-        FontRenderContext context = g2.getFontRenderContext();
-        Rectangle2D bounds = this.font.getStringBounds(this.text.get(0), context);
-        int x = (int) (this.box.getX() + this.innerMargin.width), y = (int) (this.box.getY() + this.innerMargin.height);
-        for (int i = 0; i < this.text.size(); ++i)
-            g2.drawString(this.text.get(i), x, (int) (y + i * bounds.getHeight()));
+        drawText(g2);
     }
+
+    public void positionAsMyBubble(JPanel chatPanel, int panelInnerMarginWidth)
+    {
+        Graphics2D g2 = (Graphics2D) chatPanel.getGraphics();
+        this.box.setFrame(chatPanel.getWidth() - panelInnerMarginWidth - this.box.getWidth(),
+                this.box.getY(), this.box.getWidth(), this.box.getHeight());
+        this.breakLine(g2, 200);
+    }
+
 }
