@@ -37,7 +37,7 @@ public class Conversation
     public void addMessage(String text, boolean me)
     {
         Graphics2D g2 = (Graphics2D) this.conversationPanel.getGraphics();
-        Dimension position = new Dimension(lastMessageBottom + bubbleInterval, this.outerMargin.width);
+        Dimension position = new Dimension(lastMessageBottom + bubbleInterval + 100, this.outerMargin.width);
         Bubble newMessage = new Bubble(position, bubbleInnerMargin, text, me);
         if (me)
         {
