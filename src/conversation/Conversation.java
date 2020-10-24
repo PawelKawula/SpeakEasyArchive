@@ -2,59 +2,61 @@ package conversation;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class Conversation
 {
-    private LinkedHashMap<Boolean, Bubble> messages;
-    private Dimension outerMargin;
-    private Dimension bubbleInnerMargin;
-    private int usernameToBubbleDistance;
-    private int bubbleInterval;
-    private Color myColor;
+    private HashMap<String, ArrayList<Bubble>> bubbles;
+    private ConversationViewer conversationViewer;
     private int lastMessageBottom;
-    private JPanel conversationPanel;
 
-    public Conversation(JPanel conversationPanel)
+    public Conversation(ConversationViewer conversationViewer)
     {
-        messages = new LinkedHashMap<>();
-        this.outerMargin = new Dimension(20, 20);
-        this.bubbleInnerMargin = new Dimension(10, 10);
-        this.bubbleInterval = 10;
-        this.myColor = Color.CYAN;
-        this.conversationPanel = conversationPanel;
+        this.conversationViewer = conversationViewer;
+        bubbles = new HashMap<>();
+        bubbles.put("me", new ArrayList<>());
+        bubbles.put("other", new ArrayList<>());
+        lastMessageBottom = conversationViewer.getOuterMargin().height - conversationViewer.getBubbleInterval();
     }
 
-    public void setBubbleInnerMargin(Dimension bubbleInnerMargin)
+    public void addMessage(Font font, FontRenderContext context, String text, boolean me)
     {
-        this.bubbleInnerMargin = bubbleInnerMargin;
-        for (Bubble bubble : messages.values())
-            bubble.setInnerMargin(bubbleInnerMargin);
-    }
-
-    public void addMessage(String text, boolean me)
-    {
-        Graphics2D g2 = (Graphics2D) this.conversationPanel.getGraphics();
-        Dimension position = new Dimension(lastMessageBottom + bubbleInterval + 100, this.outerMargin.width);
-        Bubble newMessage = new Bubble(position, bubbleInnerMargin, text, me);
+        int bubbleInterval = this.conversationViewer.getBubbleInterval();
+        int outerMarginWidth = this.conversationViewer.getOuterMargin().width;
+        Dimension bubbleInnerMargin = this.conversationViewer.getBubbleInnerMargin();
+        Dimension position = new Dimension(outerMarginWidth, lastMessageBottom + bubbleInterval);
+        Bubble newMessage = new Bubble(this.conversationViewer, position, text, me);
         if (me)
         {
-            newMessage.positionAsMyBubble(conversationPanel, outerMargin.width);
-            newMessage.setBgColor(myColor);
-            this.messages.put(true, newMessage);
+            newMessage.positionAsMyBubble();
+            this.bubbles.get("me").add(newMessage);
         }
         else
-            this.messages.put(false, newMessage);
+            this.bubbles.get("other").add(newMessage);
         Rectangle messageBox = newMessage.getBox().getBounds();
         lastMessageBottom = messageBox.y + messageBox.height;
     }
 
-    public void paintConversation()
+    public void paintConversation(Graphics2D g2)
     {
-        Graphics2D g2 = (Graphics2D) this.conversationPanel.getGraphics();
-        for (Bubble bubble : messages.values())
-            bubble.drawRound(g2);
+        for (ArrayList<Bubble> messages : bubbles.values())
+            for (Bubble bubble : messages)
+                bubble.drawRound(g2);
+    }
+
+    public void moveConversationAfterResize()
+    {
+        ArrayList<Bubble> myBubbles = bubbles.get("me");
+        Dimension pos;
+        for (Bubble myBubble : myBubbles)
+        {
+            pos = new Dimension(this.conversationViewer.getWidth() - (int)myBubble.getBox().getWidth() - this.conversationViewer.getOuterMargin().width,
+                    (int)myBubble.getBox().getY());
+            myBubble.getBox().setFrame(pos.width, pos.height, myBubble.getBox().getWidth(), myBubble.getBox().getHeight());
+        }
     }
 }

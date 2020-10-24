@@ -5,10 +5,7 @@ import conversation.ConversationViewer;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 
 public class SpeakEasyGUI extends JFrame
 {
@@ -94,10 +91,27 @@ public class SpeakEasyGUI extends JFrame
            {
                if (e.getKeyCode() == KeyEvent.VK_ENTER)
                {
-                    conView.addMessage(chatInput.getText(), true);
-                    conView.revalidate();
-                    conView.repaint();
+                   String message = chatInput.getText();
+                   if (!message.isBlank())
+                   {
+                       if (message.charAt(0) == 'o')
+                            conView.addMessage(message.substring(1), true);
+                       else
+                           conView.addMessage(message, false);
+                       chatInput.setText("");
+                       conView.revalidate();
+                       conView.repaint();
+                   }
                }
+           }
+       });
+       conversationViewer.addComponentListener(new ComponentAdapter()
+       {
+           @Override
+           public void componentResized(ComponentEvent e)
+           {
+               super.componentResized(e);
+               conView.resizeConversation();
            }
        });
    }
@@ -109,6 +123,7 @@ public class SpeakEasyGUI extends JFrame
         conversationViewer = new ConversationViewer();
         Border border = BorderFactory.createLineBorder(Color.BLUE, 5);
         conversationViewer.setBorder(border);
+        JScrollPane jScrollPane = new JScrollPane(conversationViewer);
         chatSegment.add(conversationViewer, BorderLayout.CENTER);
     }
 }
