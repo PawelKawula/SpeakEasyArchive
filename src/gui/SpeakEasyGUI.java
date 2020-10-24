@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class SpeakEasyGUI extends JFrame
 {
@@ -21,10 +22,13 @@ public class SpeakEasyGUI extends JFrame
     private JButton addFriendButton;
     private JTextField addFriendTextField;
     private JPanel groupListPanel;
-    private JPanel groupList;
+//    private JPanel groupList;
     private JPanel friendListPanel;
-    private JPanel friendList;
+//    private JPanel friendList;
     private JPanel conversationViewer;
+    private ImageIcon xImage;
+    private int nrOfFriends;
+    private int nrOfGroups;
 
     public SpeakEasyGUI(String title)
    {
@@ -32,7 +36,11 @@ public class SpeakEasyGUI extends JFrame
        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        this.setContentPane(mainPanel);
        this.pack();
+       groupsSegment.add(groupListPanel, BorderLayout.CENTER);
+       friendsSegment.add(friendListPanel, BorderLayout.CENTER);
+       chatSegment.add(conversationViewer, BorderLayout.CENTER);
        ConversationViewer conView = (ConversationViewer) conversationViewer;
+       xImage = new ImageIcon("x.png");
 
        addGroupButton.addActionListener(new ActionListener()
        {
@@ -42,20 +50,32 @@ public class SpeakEasyGUI extends JFrame
                String groupName = addGroupTextField.getText();
                if (!groupName.equals(""))
                {
+                   JPanel newGroupPanel = new JPanel();
+                   newGroupPanel.setLayout(new BorderLayout());
                    JButton newGroup = new JButton(groupName);
+                   JButton newGroupDeleteButton = new JButton(xImage);
+                   newGroupDeleteButton.addActionListener(ev ->
+                   {
+                        groupListPanel.remove(newGroupPanel);
+                        groupListPanel.revalidate();
+                        groupListPanel.repaint();
+                   });
                    newGroup.addActionListener(ev ->
                    {
-                        groupList.remove(newGroup);
-                        groupList.revalidate();
-                        groupList.repaint();
+                       conView.changeConversation(groupName);
+                       conView.repaint();
                    });
-                   GridBagConstraints gbc = new GridBagConstraints();
-                   gbc.gridx = 1;
-                   gbc.weightx = 1;
-                   gbc.fill = GridBagConstraints.HORIZONTAL;
+                   newGroupPanel.add(newGroupDeleteButton, BorderLayout.EAST);
+                   newGroupPanel.add(newGroup, BorderLayout.CENTER);
 
-                   groupList.add(newGroup, gbc);
-                   groupList.revalidate();
+//                   GridBagConstraints gbc = new GridBagConstraints();
+//                   gbc.weightx = 1;
+//                   gbc.gridy = nrOfGroups;
+//                   gbc.fill = GridBagConstraints.HORIZONTAL;
+
+                   groupListPanel.add(newGroupPanel);
+                   groupListPanel.revalidate();
+                   groupListPanel.repaint();
                }
            }
        });
@@ -67,20 +87,33 @@ public class SpeakEasyGUI extends JFrame
                 String friendName = addFriendTextField.getText();
                 if (!friendName.equals(""))
                 {
+                    JPanel newFriendPanel = new JPanel();
+                    newFriendPanel.setLayout(new BorderLayout());
                     JButton newFriend = new JButton(friendName);
+                    JButton newFriendDeleteButton = new JButton(xImage);
+                    newFriendDeleteButton.addActionListener(ev ->
+                    {
+                        friendListPanel.remove(newFriendPanel);
+                        friendListPanel.revalidate();
+                        friendListPanel.repaint();
+                    });
                     newFriend.addActionListener(ev ->
                     {
-                        friendList.remove(newFriend);
-                        friendList.revalidate();
-                        friendList.repaint();
+                        conView.changeConversation(friendName);
+                        conView.repaint();
                     });
-                    GridBagConstraints gbc = new GridBagConstraints();
-                    gbc.gridx = 1;
-                    gbc.weightx = 1;
-                    gbc.fill = GridBagConstraints.HORIZONTAL;
-
-                    friendList.add(newFriend, gbc);
-                    friendList.revalidate();
+//                    GridBagConstraints gbc = new GridBagConstraints();
+//                    gbc.gridx = 0;
+//                    gbc.weightx = 1;
+//                    gbc.fill = GridBagConstraints.HORIZONTAL;
+//                    friendList.add(newFriend, gbc);
+//                    gbc = new GridBagConstraints();
+//                    gbc.gridx = 1;
+                    newFriendPanel.add(newFriendDeleteButton, BorderLayout.EAST);
+                    newFriendPanel.add(newFriend, BorderLayout.CENTER);
+                    friendListPanel.add(newFriendPanel);
+                    friendListPanel.revalidate();
+                    friendListPanel.repaint();
                 }
            }
        });
@@ -119,11 +152,14 @@ public class SpeakEasyGUI extends JFrame
 
     private void createUIComponents()
     {
-        chatSegment = new JPanel();
+        groupListPanel = new JPanel();
+        groupListPanel.setLayout(new GridLayout(20, 1));
+        friendListPanel = new JPanel();
+        friendListPanel.setLayout(new GridLayout(20, 1));
+
         conversationViewer = new ConversationViewer();
         Border border = BorderFactory.createLineBorder(Color.BLUE, 5);
         conversationViewer.setBorder(border);
         JScrollPane jScrollPane = new JScrollPane(conversationViewer);
-        chatSegment.add(conversationViewer, BorderLayout.CENTER);
     }
 }

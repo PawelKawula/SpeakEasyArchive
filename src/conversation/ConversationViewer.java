@@ -104,6 +104,11 @@ public class ConversationViewer extends JPanel
 
     }
 
+    public void changeConversation(String name)
+    {
+        currentConversation = name;
+    }
+
     public void resizeConversation()
     {
         if (conversationMap.containsKey(currentConversation))

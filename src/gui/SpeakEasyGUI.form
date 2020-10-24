@@ -40,27 +40,11 @@
               </component>
             </children>
           </grid>
-          <grid id="4da02" binding="groupListPanel" layout-manager="GridBagLayout">
+          <grid id="4da02" binding="groupListPanel" custom-create="true" layout-manager="GridBagLayout">
             <constraints border-constraint="Center"/>
             <properties/>
             <border type="none"/>
-            <children>
-              <grid id="68757" binding="groupList" layout-manager="GridBagLayout">
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                  <gridbag weightx="1.0" weighty="0.0"/>
-                </constraints>
-                <properties/>
-                <border type="none"/>
-                <children/>
-              </grid>
-              <vspacer id="ca46c">
-                <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                  <gridbag weightx="0.0" weighty="1.0"/>
-                </constraints>
-              </vspacer>
-            </children>
+            <children/>
           </grid>
         </children>
       </grid>
@@ -121,25 +105,12 @@
               </component>
             </children>
           </grid>
-          <grid id="addeb" binding="friendListPanel" layout-manager="GridBagLayout">
+          <grid id="addeb" binding="friendListPanel" custom-create="true" layout-manager="GridBagLayout">
             <constraints border-constraint="North"/>
             <properties/>
             <border type="none"/>
-            <children>
-              <grid id="6e41f" binding="friendList" layout-manager="GridBagLayout">
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                  <gridbag weightx="1.0" weighty="0.0"/>
-                </constraints>
-                <properties/>
-                <border type="none"/>
-                <children/>
-              </grid>
-            </children>
+            <children/>
           </grid>
-          <vspacer id="c9fd7">
-            <constraints border-constraint="Center"/>
-          </vspacer>
         </children>
       </grid>
     </children>
