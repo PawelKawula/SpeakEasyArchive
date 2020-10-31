@@ -23,6 +23,11 @@ public class Conversation
         lastMessageBottom = conversationViewer.getOuterMargin().height - conversationViewer.getBubbleInterval();
     }
 
+    public int getLastMessageBottom()
+    {
+        return lastMessageBottom;
+    }
+
     public void addMessage(Font font, FontRenderContext context, String text, boolean me)
     {
         int bubbleInterval = this.conversationViewer.getBubbleInterval();

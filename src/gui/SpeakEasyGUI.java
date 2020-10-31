@@ -36,9 +36,11 @@ public class SpeakEasyGUI extends JFrame
        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        this.setContentPane(mainPanel);
        this.pack();
+
        groupsSegment.add(groupListPanel, BorderLayout.CENTER);
        friendsSegment.add(friendListPanel, BorderLayout.CENTER);
-       chatSegment.add(conversationViewer, BorderLayout.CENTER);
+       JScrollPane chatScrollPane = new JScrollPane(conversationViewer);
+       chatSegment.add(chatScrollPane, BorderLayout.CENTER);
        ConversationViewer conView = (ConversationViewer) conversationViewer;
        xImage = new ImageIcon("x.png");
 
@@ -160,6 +162,5 @@ public class SpeakEasyGUI extends JFrame
         conversationViewer = new ConversationViewer();
         Border border = BorderFactory.createLineBorder(Color.BLUE, 5);
         conversationViewer.setBorder(border);
-        JScrollPane jScrollPane = new JScrollPane(conversationViewer);
     }
 }

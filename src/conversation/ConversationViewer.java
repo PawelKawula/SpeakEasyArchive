@@ -28,6 +28,7 @@ public class ConversationViewer extends JPanel
         currentConversation = "test";
         lineBreak = 200;
         setBackground(new Color(33, 37, 43));
+        setSize(this.getSize().width, outerMargin.height);
     }
 
     public int getLineBreak()
@@ -113,5 +114,10 @@ public class ConversationViewer extends JPanel
     {
         if (conversationMap.containsKey(currentConversation))
             conversationMap.get(currentConversation).moveConversationAfterResize();
+    }
+
+    public int getLastMessageBottom()
+    {
+        return conversationMap.get(currentConversation).getLastMessageBottom();
     }
 }
